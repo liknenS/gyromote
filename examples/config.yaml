@@ -1,0 +1,76 @@
+# gyromote example config. Button names: docs/buttons.md. Actions: README.md.
+poll_hz: 66            # the real ceiling on macOS is about 66
+poll_hz_idle: 15       # while the cursor is off
+poll_boost_seconds: 2.0
+
+pointer:
+  enabled: true
+  mode: always         # or: hold (moves only while hold_button is down)
+  hold_button: null
+  axis_x: gyro_z       # yaw
+  axis_y: gyro_x       # pitch
+  invert_x: false
+  invert_y: false
+  sensitivity: 0.0032
+  dead_zone: 40
+  smoothing: 0.5
+  acceleration: 1.4
+  calibration_samples: 100
+  idle_off_seconds: 30
+  wake_button: wheel   # wakes the cursor; that press does not click
+  press_freeze_seconds: 0.15
+
+wheel:
+  action: scroll
+  lines: 3
+  invert: true
+
+buttons:
+  wheel:
+    press: mouse.left_click
+    move: mouse.left_down
+    move_threshold: 8
+  back: key.escape
+  home: pointer.toggle
+  up: key.up
+  down: key.down
+  left: key.left
+  right: key.right
+  vol_up: media.volume_up
+  vol_down: media.volume_down
+  ch_up: key.pageup
+  ch_down: key.pagedown
+  more: key.return
+  settings: mouse.right_click
+  help: {press: key.f1, hold: {after: 1.0, down: pointer.calibrate}}
+  dashboard: flag.toggle:slides
+  guide: flag.toggle:alt_select
+  disney: key.cmd+minus
+  rakuten: key.cmd+equal
+  lg_channels: spaces.left
+  alexa: spaces.right
+  prime: media.play_pause
+  mic:
+    down: "shell:say listening"
+    up: "shell:say done"
+  netflix:
+    down: key.backspace
+    repeat: {delay: 0.35, interval: 0.07, switch_after: 6, then: key.alt+backspace, then_interval: 0.15}
+
+flags:
+  alt_select:
+    title: Alt-drag on wheel hold
+    default: false
+    buttons:
+      wheel:
+        press: mouse.left_click
+        move: mouse.left_down
+        move_threshold: 8
+        hold:
+          after: 0.4
+          down: mouse.alt+left_down
+          apps: [com.apple.Terminal, com.googlecode.iterm2]
+  slides:
+    title: Wheel turns slides
+    default: false
+    wheel: {action: buttons, up_action: key.left, down_action: key.right}
